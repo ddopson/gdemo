@@ -65,9 +65,6 @@ public class GlympseActivity extends MapActivity {
 	GeoPoint lastLocation;
 
 	public static final String logTag = "glympse";
-	private static void log_error(String msg) {
-		Log.e(logTag, msg);
-	}
 
 	/** Called when the activity is first created. */
 	@Override
@@ -237,7 +234,6 @@ public class GlympseActivity extends MapActivity {
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
