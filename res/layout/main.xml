@@ -9,4 +9,16 @@
         android:layout_height="wrap_content"
         android:text="@string/hello" />
 
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+    
+    <com.google.android.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:apiKey="0MiKPRrzSyn8lirqUWj-9vbqc0HU4N_47w1sivA"
+                 />
 </LinearLayout>
