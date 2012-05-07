@@ -25,17 +25,34 @@ import com.google.android.maps.GeoPoint;
 public class GoogleWeatherClient {
 	public static final String logTag = "glympse-gw";
 	public static final String weatherUrlFormat = "http://www.google.com/ig/api?weather=,,,%d,%d";
-
+	
+	public static final URL googleBaseUrl;
+	static {
+		try {
+			googleBaseUrl = new URL("http://g0.gstatic.com");
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public static final String CURRENT_CONDITIONS = "current_conditions";
 	public static final String FORECAST_CONDITIONS = "forecast_conditions";
 	public static final String CONDITION = "condition";
 	public static final String TEMP_F = "temp_f";
 	public static final String TEMP_C = "temp_c";
+	public static final String LOW = "low";
+	public static final String HIGH = "high";
 	public static final String HUMIDITY = "humidity";
 	public static final String ICON = "icon";
 	public static final String WIND_CONDITION = "wind_condition";
 
 	public static final String DATA = "data";
+	
+	public static final String[] commonImages = new String[] {
+		"http://g0.gstatic.com/ig/images/weather/sunny.png",
+		"http://g0.gstatic.com/ig/images/weather/cloudy.png",
+		"http://g0.gstatic.com/ig/images/weather/chance_of_rain.png"
+	};
 
 	public static class WeatherResult {
 		int temp_f;
@@ -43,7 +60,7 @@ public class GoogleWeatherClient {
 		String condition;
 		String humidity;
 		String wind;
-		String icon;
+		URL icon;
 		List<Forecast> forecast = new ArrayList<Forecast>();
 		@Override
 		public String toString() {
@@ -55,8 +72,11 @@ public class GoogleWeatherClient {
 		String day_of_week;
 		int low;
 		int high;
-		String icon;
+		URL icon;
 		String condition;
+		public String toString() {
+			return String.format("[Forecast: {day=%s, low=%d, high=%d, condition='%s' icon='%s'}]", day_of_week, low, high, condition, icon);
+		}
 	}
 
 	public static class ElementNodeListIterator implements Iterable<Element>, Iterator<Element> {
@@ -142,9 +162,34 @@ public class GoogleWeatherClient {
 				} else if (tag.equals(WIND_CONDITION)) {
 					weather.wind = data;
 				} else if (tag.equals(ICON)) {
-					weather.icon = data;
+					try {
+						weather.icon = new URL(googleBaseUrl, data);
+					} catch (MalformedURLException e) {
+						Log.e(logTag, "Failed making URL from 'icon' field with MalformedURLException.  icon=" + data);
+					}
 				}
 			}
+		}
+		for(Element node : _iter(dom.getElementsByTagName(FORECAST_CONDITIONS))) {
+			Forecast forecast = new Forecast();
+			for(Element child : _iter(node.getChildNodes())) {
+				String tag = child.getTagName();
+				String data = child.getAttribute(DATA);
+				if(tag.equals(CONDITION)) {
+					forecast.condition = data;
+				} else if (tag.equals(LOW)) {
+					forecast.low = Integer.parseInt(data);
+				} else if (tag.equals(HIGH)) {
+					forecast.high = Integer.parseInt(data);
+				} else if (tag.equals(ICON)) {
+					try {
+						forecast.icon = new URL(googleBaseUrl, data);
+					} catch (MalformedURLException e) {
+						Log.e(logTag, "Failed making URL from 'icon' field with MalformedURLException.  icon=" + data);
+					}
+				}
+			}
+			weather.forecast.add(forecast);
 		}
 		Log.i(logTag, "Weather: " + weather);
 		return weather;
