@@ -9,22 +9,74 @@
         android:layout_height="wrap_content"
         android:text="@string/hello" />
 
-    <Button
-        android:id="@+id/button_centerMap"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="CenterMap" />
-    <Button
-        android:id="@+id/button_updateWeather"
-        android:layout_width="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_centerMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CenterMap" />
+
+        <Button
+            android:id="@+id/button_updateWeather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UpdateWeather" />
+        
+        <Button
+            android:id="@+id/button_zoomOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" />
+        
+        <Button
+            android:id="@+id/button_zoomIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+        </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="UpdateWeather" />
-    
+        android:orientation="horizontal" >
+
+        <glympse.demo.AsyncImageView
+            android:id="@+id/icon_d0"
+            android:layout_width="40px"
+            android:layout_height="40px" />
+
+        <glympse.demo.AsyncImageView
+            android:id="@+id/icon_d1"
+            android:layout_width="40px"
+            android:layout_height="40px" />
+
+        <glympse.demo.AsyncImageView
+            android:id="@+id/icon_d2"
+            android:layout_width="40px"
+            android:layout_height="40px" />
+
+        <glympse.demo.AsyncImageView
+            android:id="@+id/icon_d3"
+            android:layout_width="40px"
+            android:layout_height="40px" />
+
+        <glympse.demo.AsyncImageView
+            android:id="@+id/icon_d4"
+            android:layout_width="40px"
+            android:layout_height="40px" />
+    </LinearLayout>
+
     <com.google.android.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:clickable="true"
         android:apiKey="0MiKPRrzSyn8lirqUWj-9vbqc0HU4N_47w1sivA"
-                 />
+        android:clickable="true" />
+
 </LinearLayout>
